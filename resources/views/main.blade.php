@@ -9,10 +9,25 @@
 </head>
 <body>
 
-<div class="navbar navbar-dark bg-dark shadow-sm">
-    
+<div class="navbar navbar-dark bg-dark shadow-sm"></div>
 
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      Filtrar por ano
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="#">Mais novos</a></li>
+      <li><a class="dropdown-item" href="#">Mais antigos</a></li>
+    </ul>
+    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      Dropdown
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="#">Dropdown link</a></li>
+      <li><a class="dropdown-item" href="#">Dropdown link</a></li>
+    </ul>
   </div>
+</div>
 
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
