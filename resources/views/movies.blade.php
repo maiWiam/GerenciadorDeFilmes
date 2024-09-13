@@ -16,15 +16,19 @@
 
 <!-- Navbar -->
 <nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
-    <a class="navbar-brand ms-3" href="#">Movie Gallery</a>
+    <a class="navbar-brand ms-3" href="#">Movie Manager</a>
     <div class="ms-auto me-3">
-        <!-- Atualize o href para a rota do CRUD -->
-        <a href="{{ route('movies.index') }}" class="btn btn-outline-light">Login</a>
-        <a class="btn btn-primary ms-auto me-3" href="{{ route('movies.create') }}">Add Movie</a>
-
+        @auth
+            <a href="{{ route('movies.create') }}" class="btn btn-outline-light">Add Movie</a>
+            <a href="{{ route('logout') }}" class="btn btn-outline-light" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+        @else
+            <a href="{{ route('login') }}" class="btn btn-outline-light">Login</a>
+        @endauth
     </div>
 </nav>
-
 <!-- Movie Gallery -->
 <div class="container">
     @if (session('success'))
