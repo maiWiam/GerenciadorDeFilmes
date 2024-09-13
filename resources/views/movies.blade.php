@@ -19,41 +19,28 @@
     <a class="navbar-brand ms-3" href="#">Movie Gallery</a>
 </nav>
 
-<!-- Filter Buttons -->
-<div class="container mb-4">
-    <div class="btn-group" role="group">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            Filtrar por ano
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Mais novos</a></li>
-            <li><a class="dropdown-item" href="#">Mais antigos</a></li>
-        </ul>
-        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-            <li><a class="dropdown-item" href="#">Dropdown link</a></li>
-        </ul>
-    </div>
-</div>
-
 <!-- Movie Gallery -->
 <div class="container">
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card" data-bs-toggle="modal" data-bs-target="#movieModal"
-                 data-name="Movie Title" data-synopsis="Movie synopsis goes here." data-year="2023" 
-                 data-category="Action" data-image="https://m.media-amazon.com/images/M/MV5BMWFmNWJhNjAtNjI1MS00Yzg5LTg5NGQtMmMyMDAxN2I5ZDg4XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg" 
-                 data-link="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-                <img src="https://m.media-amazon.com/images/M/MV5BMWFmNWJhNjAtNjI1MS00Yzg5LTg5NGQtMmMyMDAxN2I5ZDg4XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg" class="card-img-top" alt="Movie Poster">
-                <div class="card-body">
-                    <p class="card-text">Movie Title</p>
+        @foreach ($filmes as $filme)
+            <div class="col">
+                <div class="card" data-bs-toggle="modal" data-bs-target="#movieModal"
+                     data-name="{{ $filme->name }}" data-synopsis="{{ $filme->sinopse }}"
+                     data-year="{{ $filme->ano }}" data-category="{{ $filme->categoria }}"
+                     data-image="{{ asset('images/' . $filme->capa) }}" data-link="{{ $filme->link }}">
+                    <img src="{{ asset('images/' . $filme->capa) }}" class="card-img-top" alt="Movie Poster">
+                    <div class="card-body">
+                        <p class="card-text">{{ $filme->name }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Repeat the above block for more movie posters -->
+        @endforeach
     </div>
 </div>
 
@@ -63,10 +50,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="movieModalLabel">Movie Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
-              
+                 
                     <div class="col-md-8">
                         <h5 id="modalName">Movie Name</h5>
                         <p><strong>Sinopse:</strong> <span id="modalSynopsis">Synopsis goes here.</span></p>
@@ -82,3 +70,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var modalElement = document.getElementById('movieModal');
+        modalElement.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget; // Botão que abriu o modal
+            var name = button.getAttribute('data-name');
+            var synopsis = button.getAttribute('data-synopsis');
+            var year = button.getAttribute('data-year');
+            var category = button.getAttribute('data-category');
+            var image = button.getAttribute('data-image');
+            var link = button.getAttribute('data-link');
+
+            // Atualizar o conteúdo do modal
+            document.getElementById('modalName').textContent = name;
+            document.getElementById('modalSynopsis').textContent = synopsis;
+            document.getElementById('modalYear').textContent = year;
+            document.getElementById('modalCategory').textContent = category;
+            document.getElementById('modalImage').src = image;
+            document.getElementById('modalLink').href = link;
+        });
+    });
+</script>
+
+</body>
+</html>

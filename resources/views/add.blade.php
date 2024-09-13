@@ -3,51 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <title>Add Movie</title>
 </head>
 <body>
-<div class="container mt-5">
-    <h2>Add Movie</h2>
-    <form action="" method="post">
-        <div class="form-group">
-            <label for="nome">Nome do Filme:</label>
-            <input type="text" class="form-control" id="nome" placeholder="Enter movie name">
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
+    <a class="navbar-brand ms-3" href="#">Movie Manager</a>
+</nav>
+
+<div class="container">
+    <h1>Add Movie</h1>
+
+    <!-- Success message -->
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
         </div>
-        <div class="form-group">
-            <label for="sinopse">Sinopse:</label>
-            <input type="text" class="form-control" id="sinopse" placeholder="Enter synopsis">
+    @endif
+
+    <!-- Form for adding movies -->
+    <form action="{{ route('movies.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
         </div>
-        <div class="form-group">
-            <label for="ano">Ano:</label>
-            <input type="number" class="form-control" id="ano" placeholder="Enter year">
+        <div class="mb-3">
+            <label for="sinopse" class="form-label">Sinopse</label>
+            <input type="text" class="form-control" id="sinopse" name="sinopse" required>
         </div>
-        <div class="form-group">
-            <label for="categoria">Categoria:</label>
-            <select class="form-control" id="categoria">
-                <option value="">Ação</option>
-                <option value="">Drama</option>
-                <option value="">Documentário</option>
-                <option value="">Ficção Científica</option>
-                <option value="">Mistério</option>
-                <option value="">Terror</option>
+        <div class="mb-3">
+            <label for="ano" class="form-label">Ano</label>
+            <input type="number" class="form-control" id="ano" name="ano" required>
+        </div>
+        <div class="mb-3">
+            <label for="categoria" class="form-label">Categoria</label>
+            <select class="form-select" id="categoria" name="categoria" required>
+                <option value="Ação">Ação</option>
+                <option value="Drama">Drama</option>
+                <option value="Documentário">Documentário</option>
+                <option value="Ficção Científica">Ficção Científica</option>
+                <option value="Mistério">Mistério</option>
+                <option value="Terror">Terror</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="capa">Imagem da Capa:</label>
-            <input type="file" class="form-control-file" id="capa">
+        <div class="mb-3">
+            <label for="capa" class="form-label">Capa</label>
+            <input type="file" class="form-control" id="capa" name="capa" required>
         </div>
-        <div class="form-group">
-            <label for="link">Link do Trailer:</label>
-            <input type="text" class="form-control" id="link" placeholder="Enter trailer link">
+        <div class="mb-3">
+            <label for="link" class="form-label">Link</label>
+            <input type="url" class="form-control" id="link" name="link" required>
         </div>
-        <button type="submit" class="btn btn-primary">Adicionar</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
+    <!-- Button to view movies -->
+    <div class="mt-3">
+        <a href="{{ route('movies.index') }}" class="btn btn-secondary">Ver Filmes</a>
+    </div>
 </div>
 
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
