@@ -5,17 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <title>Add Movie</title>
+    <title>Movie Manager</title>
 </head>
 <body>
 
 <!-- Navbar -->
 <nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
     <a class="navbar-brand ms-3" href="#">Movie Manager</a>
+    <div class="ms-auto me-3">
+        <!-- Link para a página de adicionar filmes -->
+        <a href="{{ route('movies.create') }}" class="btn btn-outline-light">Add Movie</a>
+    </div>
 </nav>
 
 <div class="container">
-    <h1>Add Movie</h1>
+    <h1>Manage Movies</h1>
 
     <!-- Success message -->
     @if (session('success'))
@@ -61,10 +65,43 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
-    <!-- Button to view movies -->
-    <div class="mt-3">
-        <a href="{{ route('movies.index') }}" class="btn btn-secondary">Ver Filmes</a>
-    </div>
+    <!-- Movie List -->
+    <h2 class="mt-4">Movie List</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Sinopse</th>
+                <th>Ano</th>
+                <th>Categoria</th>
+                <th>Capa</th>
+                <th>Link</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($filmes as $filme)
+                <tr>
+                    <td>{{ $filme->name }}</td>
+                    <td>{{ $filme->sinopse }}</td>
+                    <td>{{ $filme->ano }}</td>
+                    <td>{{ $filme->categoria }}</td>
+                    <td><img src="{{ asset('images/' . $filme->capa) }}" alt="Movie Poster" style="width: 100px;"></td>
+                    <td><a href="{{ $filme->link }}" target="_blank">Watch Trailer</a></td>
+                    <td>
+                        <!-- Edit Button -->
+                        <a href="{{ route('movies.edit', $filme->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <!-- Delete Button -->
+                        <form action="{{ route('movies.destroy', $filme->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 
 </body>

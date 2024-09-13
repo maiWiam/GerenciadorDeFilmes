@@ -17,6 +17,12 @@
 <!-- Navbar -->
 <nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
     <a class="navbar-brand ms-3" href="#">Movie Gallery</a>
+    <div class="ms-auto me-3">
+        <!-- Atualize o href para a rota do CRUD -->
+        <a href="{{ route('movies.index') }}" class="btn btn-outline-light">Login</a>
+        <a class="btn btn-primary ms-auto me-3" href="{{ route('movies.create') }}">Add Movie</a>
+
+    </div>
 </nav>
 
 <!-- Movie Gallery -->
