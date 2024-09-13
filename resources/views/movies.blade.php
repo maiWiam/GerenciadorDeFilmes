@@ -7,8 +7,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <title>Movie Gallery</title>
     <style>
+        .navbar {
+            margin-bottom: 2rem;
+        }
+        .card {
+            border: none;
+            border-radius: 0.5rem;
+        }
         .card img {
             cursor: pointer;
+            object-fit: cover;
+            height: 800px; /* Ajuste a altura para um tamanho maior */
+            width: 100%; /* Certifique-se de que a imagem ocupe toda a largura da carta */
+            transition: filter 0.3s ease;
+        }
+        .card img:hover {
+            filter: blur(5px);
+        }
+        .card-body {
+            padding: 1rem;
+        }
+        .modal-content {
+            border-radius: 0.5rem;
+        }
+        .modal-header, .modal-footer {
+            border: none;
         }
         .hidden {
             display: none;
@@ -18,13 +41,14 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
+<nav class="navbar navbar-dark bg-dark shadow-sm">
     <a class="navbar-brand ms-3" href="#">Movie Manager</a>
     <div class="ms-auto me-3">
+        <a href="{{ route('register') }}" class="btn btn-outline-light">Register</a>
         @auth
             <a href="{{ route('movies.create') }}" class="btn btn-outline-light">Gerenciar Filmes</a>
             <a href="{{ route('logout') }}" class="btn btn-outline-light" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
             </form>
         @else
@@ -36,12 +60,12 @@
 <!-- Filter Form -->
 <div class="container mb-4">
     <form id="filterForm">
-        <div class="row">
-            <div class="col-md-4 mb-3">
+        <div class="row g-3">
+            <div class="col-md-4">
                 <label for="filterYear" class="form-label">Ano</label>
-                <input type="number" id="filterYear" class="form-control">
+                <input type="number" id="filterYear" class="form-control" placeholder="Digite o ano">
             </div>
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4">
                 <label for="filterCategory" class="form-label">Categoria</label>
                 <select id="filterCategory" class="form-select">
                     <option value="">Todas as categorias</option>
@@ -53,8 +77,8 @@
                     <option value="Terror">Terror</option>
                 </select>
             </div>
-            <div class="col-md-4 mb-3">
-                <button type="button" id="filterButton" class="btn btn-primary mt-4">Filtrar</button>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="button" id="filterButton" class="btn btn-primary w-100">Filtrar</button>
             </div>
         </div>
     </form>
@@ -90,7 +114,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="movieModalLabel">Movie Details</h5>
+                <h5 class="modal-title" id="movieModalLabel">Detalhes do Filme</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -99,16 +123,16 @@
                         <img id="modalImage" src="" class="img-fluid" alt="Movie Poster">
                     </div>
                     <div class="col-md-8">
-                        <h5 id="modalName">Movie Name</h5>
-                        <p><strong>Sinopse:</strong> <span id="modalSynopsis">Synopsis goes here.</span></p>
-                        <p><strong>Ano:</strong> <span id="modalYear">Year</span></p>
-                        <p><strong>Categoria:</strong> <span id="modalCategory">Category</span></p>
-                        <p><strong>Link do Trailer:</strong> <a id="modalLink" href="" target="_blank">Watch Trailer</a></p>
+                        <h5 id="modalName">Nome do Filme</h5>
+                        <p><strong>Sinopse:</strong> <span id="modalSynopsis">Sinopse vai aqui.</span></p>
+                        <p><strong>Ano:</strong> <span id="modalYear">Ano</span></p>
+                        <p><strong>Categoria:</strong> <span id="modalCategory">Categoria</span></p>
+                        <p><strong>Link do Trailer:</strong> <a id="modalLink" href="" target="_blank">Assistir Trailer</a></p>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>

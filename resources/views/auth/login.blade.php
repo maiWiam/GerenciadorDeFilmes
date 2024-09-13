@@ -5,10 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Login</title>
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: auto;
+        }
+        .login-header {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2>Login</h2>
+    <div class="container mt-5 login-container">
+        <h2 class="login-header">Login</h2>
         @if ($errors->any())
             <div class="alert alert-danger">
                 @foreach ($errors->all() as $error)
