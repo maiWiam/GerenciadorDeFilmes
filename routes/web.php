@@ -21,6 +21,7 @@ Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('
 // Rota para processar o registro
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 
+
 // Rotas protegidas por autenticação
 Route::middleware('auth')->group(function () {
     Route::get('/movies/create', [MovieController::class, 'create'])->name('movies.create');

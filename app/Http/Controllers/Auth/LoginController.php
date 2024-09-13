@@ -23,7 +23,7 @@ class LoginController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/');
+            return redirect()->intended(route('movies.create'));
         }
 
         return back()->withErrors([
