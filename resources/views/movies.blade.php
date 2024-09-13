@@ -10,6 +10,9 @@
         .card img {
             cursor: pointer;
         }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -19,7 +22,7 @@
     <a class="navbar-brand ms-3" href="#">Movie Manager</a>
     <div class="ms-auto me-3">
         @auth
-            <a href="{{ route('movies.create') }}" class="btn btn-outline-light">Add Movie</a>
+            <a href="{{ route('movies.create') }}" class="btn btn-outline-light">Gerenciar Filmes</a>
             <a href="{{ route('logout') }}" class="btn btn-outline-light" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
@@ -29,6 +32,34 @@
         @endauth
     </div>
 </nav>
+
+<!-- Filter Form -->
+<div class="container mb-4">
+    <form id="filterForm">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="filterYear" class="form-label">Ano</label>
+                <input type="number" id="filterYear" class="form-control">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="filterCategory" class="form-label">Categoria</label>
+                <select id="filterCategory" class="form-select">
+                    <option value="">Todas as categorias</option>
+                    <option value="Ação">Ação</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Documentário">Documentário</option>
+                    <option value="Ficção Científica">Ficção Científica</option>
+                    <option value="Mistério">Mistério</option>
+                    <option value="Terror">Terror</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-3">
+                <button type="button" id="filterButton" class="btn btn-primary mt-4">Filtrar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 <!-- Movie Gallery -->
 <div class="container">
     @if (session('success'))
@@ -37,9 +68,9 @@
         </div>
     @endif
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4" id="movieGallery">
         @foreach ($filmes as $filme)
-            <div class="col">
+            <div class="col movie-card" data-year="{{ $filme->ano }}" data-category="{{ $filme->categoria }}">
                 <div class="card" data-bs-toggle="modal" data-bs-target="#movieModal"
                      data-name="{{ $filme->name }}" data-synopsis="{{ $filme->sinopse }}"
                      data-year="{{ $filme->ano }}" data-category="{{ $filme->categoria }}"
@@ -64,7 +95,9 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                 
+                    <div class="col-md-4">
+                        <img id="modalImage" src="" class="img-fluid" alt="Movie Poster">
+                    </div>
                     <div class="col-md-8">
                         <h5 id="modalName">Movie Name</h5>
                         <p><strong>Sinopse:</strong> <span id="modalSynopsis">Synopsis goes here.</span></p>
@@ -83,9 +116,10 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Função para atualizar o modal com as informações do filme
         var modalElement = document.getElementById('movieModal');
         modalElement.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget; // Botão que abriu o modal
+            var button = event.relatedTarget;
             var name = button.getAttribute('data-name');
             var synopsis = button.getAttribute('data-synopsis');
             var year = button.getAttribute('data-year');
@@ -93,13 +127,34 @@
             var image = button.getAttribute('data-image');
             var link = button.getAttribute('data-link');
 
-            // Atualizar o conteúdo do modal
             document.getElementById('modalName').textContent = name;
             document.getElementById('modalSynopsis').textContent = synopsis;
             document.getElementById('modalYear').textContent = year;
             document.getElementById('modalCategory').textContent = category;
             document.getElementById('modalImage').src = image;
             document.getElementById('modalLink').href = link;
+        });
+
+        // Função para filtrar filmes
+        document.getElementById('filterButton').addEventListener('click', function () {
+            var yearFilter = document.getElementById('filterYear').value;
+            var categoryFilter = document.getElementById('filterCategory').value;
+
+            var movieCards = document.querySelectorAll('.movie-card');
+
+            movieCards.forEach(function (card) {
+                var cardYear = card.getAttribute('data-year');
+                var cardCategory = card.getAttribute('data-category');
+
+                var yearMatch = !yearFilter || cardYear == yearFilter;
+                var categoryMatch = !categoryFilter || cardCategory == categoryFilter;
+
+                if (yearMatch && categoryMatch) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
         });
     });
 </script>

@@ -20,6 +20,8 @@ Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('
 
 // Rota para processar o registro
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+// Rota volta para gal
+Route::get('/movies', [MovieController::class, 'index'])->name('movies.index');
 
 
 // Rotas protegidas por autenticação
