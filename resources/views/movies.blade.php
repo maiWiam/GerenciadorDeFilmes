@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <title>Movie Gallery</title>
+    <title>Filmes</title>
     <style>
         .navbar {
             margin-bottom: 2rem;
@@ -27,7 +27,7 @@
         .card-body {
             padding: 1rem;
         }
-        .modal-content {
+        .modal-content {    
             border-radius: 0.5rem;
         }
         .modal-header, .modal-footer {
@@ -40,11 +40,10 @@
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-dark bg-dark shadow-sm">
-    <a class="navbar-brand ms-3" href="#">Movie Manager</a>
+    <a class="navbar-brand ms-3" href="#">Galeria de filmes</a>
     <div class="ms-auto me-3">
-        <a href="{{ route('register') }}" class="btn btn-outline-light">Register</a>
+        <a href="{{ route('register') }}" class="btn btn-outline-light">Registrar novo adiministrador</a>
         @auth
             <a href="{{ route('movies.create') }}" class="btn btn-outline-light">Gerenciar Filmes</a>
             <a href="{{ route('logout') }}" class="btn btn-outline-light" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
@@ -57,7 +56,6 @@
     </div>
 </nav>
 
-<!-- Filter Form -->
 <div class="container mb-4">
     <form id="filterForm">
         <div class="row g-3">
@@ -84,7 +82,6 @@
     </form>
 </div>
 
-<!-- Movie Gallery -->
 <div class="container">
     @if (session('success'))
         <div class="alert alert-success">
@@ -109,7 +106,6 @@
     </div>
 </div>
 
-<!-- Modal -->
 <div class="modal fade" id="movieModal" tabindex="-1" aria-labelledby="movieModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -124,7 +120,7 @@
                     </div>
                     <div class="col-md-8">
                         <h5 id="modalName">Nome do Filme</h5>
-                        <p><strong>Sinopse:</strong> <span id="modalSynopsis">Sinopse vai aqui.</span></p>
+                        <p><strong>Sinopse:</strong> <span id="modalSynopsis">Sinopse</span></p>
                         <p><strong>Ano:</strong> <span id="modalYear">Ano</span></p>
                         <p><strong>Categoria:</strong> <span id="modalCategory">Categoria</span></p>
                         <p><strong>Link do Trailer:</strong> <a id="modalLink" href="" target="_blank">Assistir Trailer</a></p>
@@ -140,7 +136,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Função para atualizar o modal com as informações do filme
         var modalElement = document.getElementById('movieModal');
         modalElement.addEventListener('show.bs.modal', function (event) {
             var button = event.relatedTarget;
@@ -159,7 +154,6 @@
             document.getElementById('modalLink').href = link;
         });
 
-        // Função para filtrar filmes
         document.getElementById('filterButton').addEventListener('click', function () {
             var yearFilter = document.getElementById('filterYear').value;
             var categoryFilter = document.getElementById('filterCategory').value;

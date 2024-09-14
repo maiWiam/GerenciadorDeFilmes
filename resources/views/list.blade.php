@@ -10,13 +10,12 @@
 <body>
 
 <nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
-    <a class="navbar-brand ms-3" href="#">Movie Manager</a>
+<a class="navbar-brand ms-3" href="{{ route('movies.index') }}">Galeria de filmes</a>
 </nav>
 
 <div class="container">
     <h1>Movies List</h1>
 
-    <!-- Success message -->
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}

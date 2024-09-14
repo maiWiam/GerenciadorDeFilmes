@@ -10,7 +10,7 @@
 <body>
 
 <nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
-    <a class="navbar-brand ms-3" href="{{ route('movies.index') }}">Movie Manager</a>
+    <a class="navbar-brand ms-3" href="{{ route('movies.index') }}">Galeria de filmes</a>
     <div class="ms-auto me-3">
 
         @auth
@@ -27,14 +27,12 @@
 <div class="container">
     <h1>Manage Movies</h1>
 
-    <!-- Success message -->
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
 
-    <!-- Form for adding movies -->
     <form action="{{ route('movies.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
@@ -71,7 +69,6 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
-    <!-- Movie List -->
     <h2 class="mt-4">Movie List</h2>
     <table class="table">
         <thead>
@@ -95,9 +92,7 @@
                     <td><img src="{{ asset('images/' . $filme->capa) }}" alt="Movie Poster" style="width: 100px;"></td>
                     <td><a href="{{ $filme->link }}" target="_blank">Watch Trailer</a></td>
                     <td>
-                        <!-- Edit Button -->
                         <a href="{{ route('movies.edit', $filme->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <!-- Delete Button -->
                         <form action="{{ route('movies.destroy', $filme->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')

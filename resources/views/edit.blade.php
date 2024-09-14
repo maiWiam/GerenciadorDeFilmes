@@ -10,20 +10,18 @@
 <body>
 
 <nav class="navbar navbar-dark bg-dark shadow-sm mb-4">
-    <a class="navbar-brand ms-3" href="#">Movie Manager</a>
+<a class="navbar-brand ms-3" href="{{ route('movies.index') }}">Galeria de filmes</a>
 </nav>
 
 <div class="container">
     <h1>Edit Movie</h1>
 
-    <!-- Success message -->
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
 
-    <!-- Form for editing movies -->
     <form action="{{ route('movies.update', $filme->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -65,7 +63,7 @@
     </form>
 
     <div class="mt-3">
-        <a href="{{ route('movies.index') }}" class="btn btn-secondary">Back to List</a>
+        <a href="{{ route('movies.index') }}" class="btn btn-secondary">Voltar para lista</a>
     </div>
 </div>
 
