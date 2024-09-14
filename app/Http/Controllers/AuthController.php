@@ -9,13 +9,11 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Mostrar o formulário de login
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    // Processar o login
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -25,24 +23,21 @@ class AuthController extends Controller
         }
 
         return redirect()->back()->withErrors([
-            'email' => 'As credenciais fornecidas estão incorretas.',
+            'email' => 'email não cadastrado',
         ]);
     }
 
-    // Processar o logout
     public function logout(Request $request)
     {
         Auth::logout();
         return redirect('/');
     }
 
-    // Mostrar o formulário de registro
     public function showRegistrationForm()
     {
         return view('auth.register');
     }
 
-    // Processar o registro
     public function register(Request $request)
     {
         $request->validate([
